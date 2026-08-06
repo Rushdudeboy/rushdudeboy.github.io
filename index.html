@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <title>LexScout HTML | 기업 공식 법률 채용공고</title>
+  <style>
+    :root { color-scheme: light; --ink:#18342d; --green:#173f35; --mint:#dcece4; --paper:#f6f3eb; --line:#d8d6cb; --white:#fff; --red:#a63d40; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif; }
+    button,input,select,textarea { font:inherit; }
+    button { cursor:pointer; }
+    header { position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; padding:18px clamp(20px,5vw,72px); color:#fff; background:var(--green); box-shadow:0 8px 24px #173f3525; }
+    .brand { display:flex; gap:12px; align-items:center; }
+    .brand-mark { display:grid; place-items:center; width:42px; height:42px; border:1px solid #ffffff66; border-radius:50%; font-family:Georgia,serif; }
+    .brand b { display:block; font-family:Georgia,serif; font-size:22px; }
+    .brand small { opacity:.68; letter-spacing:.14em; }
+    .actions { display:flex; gap:10px; }
+    button,.button { border:1px solid var(--line); border-radius:999px; padding:10px 16px; background:#fff; color:var(--ink); font-weight:700; }
+    .primary { border-color:#e7bc72; background:#e7bc72; color:#19342d; }
+    .sync { color:#fff; background:transparent; border-color:#ffffff55; }
+    main { width:min(1180px,calc(100% - 32px)); margin:0 auto; padding:54px 0 80px; }
+    .hero { display:grid; grid-template-columns:1.4fr .6fr; align-items:end; gap:28px; margin-bottom:26px; }
+    .eyebrow { margin:0 0 12px; color:#9b6b27; font-size:12px; font-weight:800; letter-spacing:.18em; }
+    h1 { max-width:760px; margin:0; font-family:Georgia,"Noto Serif KR",serif; font-size:clamp(38px,6vw,72px); line-height:1.04; letter-spacing:-.04em; }
+    h1 em { color:#b56f2d; font-weight:inherit; }
+    .hero p:last-child { max-width:680px; margin:20px 0 0; color:#52645e; line-height:1.7; }
+    .seal { justify-self:end; display:grid; place-items:center; width:150px; aspect-ratio:1; border:1px solid #173f3540; border-radius:50%; font:42px Georgia,serif; box-shadow:inset 0 0 0 14px var(--paper),inset 0 0 0 15px #173f3533; }
+    .policy { display:flex; align-items:center; gap:14px; padding:18px 20px; border:1px solid #8eaa9c; border-radius:18px; background:var(--mint); }
+    .policy strong { display:block; }
+    .policy p { margin:4px 0 0; color:#52645e; }
+    .policy .tag { margin-left:auto; white-space:nowrap; border-radius:999px; padding:7px 12px; background:#fff; font-size:13px; font-weight:800; }
+    .source-row,.stats,.toolbar { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .source-row { margin:22px 0; }
+    .source-row strong { margin-right:8px; }
+    .source-chip { padding:7px 11px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:13px; }
+    .source-chip.error { color:var(--red); }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); margin:18px 0 34px; }
+    .stat { padding:22px; border:1px solid var(--line); border-radius:18px; background:#fff; }
+    .stat span { display:block; color:#66756f; font-size:13px; }
+    .stat b { display:block; margin-top:8px; font:42px Georgia,serif; }
+    .board { padding:clamp(18px,4vw,34px); border:1px solid var(--line); border-radius:24px; background:#fff; }
+    .board-head { display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:18px; }
+    h2 { margin:4px 0 0; font:32px Georgia,"Noto Serif KR",serif; }
+    .toolbar { margin-bottom:20px; }
+    .toolbar input,.toolbar select { min-height:44px; border:1px solid var(--line); border-radius:12px; padding:10px 13px; background:#fff; }
+    .toolbar input { flex:1; min-width:240px; }
+    .job-list { display:grid; gap:14px; }
+    .job { padding:22px; border:1px solid var(--line); border-radius:18px; background:#fdfcf8; }
+    .job-top,.job-meta,.job footer { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .job-top { justify-content:space-between; }
+    .chips { display:flex; gap:7px; flex-wrap:wrap; }
+    .chip { padding:5px 9px; border-radius:999px; background:var(--mint); font-size:12px; font-weight:800; }
+    .chip.edited { background:#efe0c3; }
+    .job-tools { display:flex; gap:6px; }
+    .job-tools button { padding:6px 10px; font-size:12px; }
+    .job h3 { margin:18px 0 10px; font:700 22px/1.3 Georgia,"Noto Serif KR",serif; }
+    .job h3 a { color:inherit; text-decoration:none; }
+    .job-meta { color:#586963; }
+    .job-meta .location { color:var(--green); font-weight:800; }
+    .job footer { margin-top:18px; padding-top:15px; border-top:1px solid var(--line); color:#68756f; font-size:13px; }
+    .job footer a { margin-left:auto; color:var(--green); font-weight:900; }
+    .empty { padding:52px 20px; text-align:center; color:#68756f; }
+    dialog { width:min(720px,calc(100% - 28px)); border:0; border-radius:22px; padding:0; color:var(--ink); box-shadow:0 30px 80px #173f3550; }
+    dialog::backdrop { background:#132d2788; backdrop-filter:blur(4px); }
+    dialog form { padding:28px; }
+    .dialog-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .dialog-head button { border:0; font-size:24px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    label { display:grid; gap:7px; color:#425650; font-size:13px; font-weight:800; }
+    label.wide { grid-column:1/-1; }
+    label input,label select,label textarea { width:100%; border:1px solid var(--line); border-radius:10px; padding:11px 12px; color:var(--ink); background:#fff; }
+    .form-note { margin:18px 0 0; border-radius:12px; padding:12px; background:#f5ead7; color:#6f522f; font-size:13px; }
+    .error { min-height:20px; color:var(--red); font-size:13px; font-weight:800; }
+    .dialog-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }
+    .toast { position:fixed; right:20px; bottom:20px; z-index:10; max-width:360px; border-radius:12px; padding:13px 16px; color:#fff; background:var(--green); box-shadow:0 12px 30px #173f3540; }
+    @media (max-width:760px) { header { align-items:flex-start; } .brand small { display:none; } .actions { flex-direction:column; } .hero { grid-template-columns:1fr; } .seal { display:none; } .policy { align-items:flex-start; } .policy .tag { display:none; } .stats { grid-template-columns:1fr; } .form-grid { grid-template-columns:1fr; } label.wide { grid-column:auto; } .job-top { align-items:flex-start; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="brand-mark">LS</span><span><b>LexScout</b><small>OFFICIAL CAREER LINKS</small></span></div>
+    <div class="actions"><button class="sync" id="sync">공식 공고 새로고침</button><button class="primary" id="add">＋ 공고 추가</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">MY CAREER DESK · HTML EDITION</p><h1>기업이 올린 <em>법률 채용공고</em>로 바로.</h1><p>채용 중개 사이트를 거치지 않고 기업 공식 채용공고로 연결합니다. 근무지가 확인된 공고만 저장되며 관리자가 언제든 정보를 수정할 수 있습니다.</p></div>
+      <div class="seal" aria-hidden="true">LS</div>
+    </section>
+    <section class="policy"><span aria-hidden="true">✓</span><div><strong>공식 링크·확정 지역 원칙</strong><p>기업별 채용 페이지의 직접 링크만 허용하고 ‘지역 미정’은 저장하지 않습니다.</p></div><span class="tag">관리자 수정 가능</span></section>
+    <div class="source-row" id="sources"><strong>기업 공식 채용</strong><span class="source-chip">확인 전</span></div>
+    <section class="stats"><article class="stat"><span>전체 공고</span><b id="total">0</b></article><article class="stat"><span>서울</span><b id="seoul">0</b></article><article class="stat"><span>관리자 수정</span><b id="edited">0</b></article></section>
+    <section class="board">
+      <div class="board-head"><div><p class="eyebrow">DIRECT OPENINGS</p><h2>기업 공식 채용공고</h2></div><span id="count">0개의 공고</span></div>
+      <div class="toolbar"><input id="search" type="search" placeholder="회사명, 공고 제목, 지역 검색" aria-label="공고 검색"><select id="region" aria-label="지역 필터"><option value="all">모든 지역</option></select></div>
+      <div class="job-list" id="jobs"></div>
+      <div class="empty" id="empty">등록된 공식 공고가 없습니다.</div>
+    </section>
+  </main>
+  <dialog id="editor">
+    <form id="form">
+      <div class="dialog-head"><div><p class="eyebrow" id="mode">ADD A JOB</p><h2 id="form-title">새 공고 추가</h2></div><button type="button" id="close" aria-label="닫기">×</button></div>
+      <div class="form-grid">
+        <label class="wide">회사명<input name="companyName" required></label>
+        <label class="wide">공고 제목<input name="title" required></label>
+        <label>공고 분류<select name="sector"><option value="private">민간</option><option value="public">공공</option><option value="headhunter">헤드헌터</option></select></label>
+        <label>근무 지역 (필수)<input name="locationCity" required placeholder="예: 서울, 성남, 원격"></label>
+        <label class="wide">출처<input name="source" required value="기업 공식 채용"></label>
+        <label>공고 마감일<input name="expiresAt" type="date"></label>
+        <label class="wide">기업 공식 채용공고 URL<input name="originalUrl" required type="url" placeholder="https://기업-채용페이지/공고…"></label>
+        <label class="wide">메모<textarea name="memo" rows="3"></textarea></label>
+      </div>
+      <p class="form-note">사람인·리멤버 등 중개 사이트 링크와 ‘지역 미정’ 값은 저장되지 않습니다.</p>
+      <p class="error" id="form-error" role="alert"></p>
+      <div class="dialog-actions"><button type="button" id="cancel">취소</button><button class="primary" type="submit" id="save">보드에 추가</button></div>
+    </form>
+  </dialog>
+  <script>
+    const STORAGE_KEY = "lawjob.jobs.v1";
+    const blockedHosts = ["saramin.co.kr","jobkorea.co.kr","rememberapp.co.kr","incruit.com","jobda.im","wanted.co.kr","jumpit.co.kr","linkedin.com","legalcrew.co.kr","klaw.or.kr","job.alio.go.kr","gojobs.go.kr"];
+    const unknownLocation = /^(지역\s*미정|근무지\s*미정|미정|미표기|확인\s*필요|unknown|unspecified|tbd|n\/?a|-)$/i;
+    const $ = (selector) => document.querySelector(selector);
+    let jobs = loadJobs();
+    let editingId = null;
+
+    function directUrl(value) {
+      try { const host = new URL(value).hostname.toLowerCase(); return !blockedHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`)); }
+      catch { return false; }
+    }
+    function validLocation(value) { return Boolean(value && value.trim() && !unknownLocation.test(value.trim())); }
+    function validJob(job) { return job && job.id && job.title && job.companyName && job.source && directUrl(job.originalUrl) && validLocation(job.locationCity); }
+    function loadJobs() {
+      try { const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); return Array.isArray(parsed) ? parsed.filter(validJob) : []; }
+      catch { return []; }
+    }
+    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs)); render(); }
+    function uid() { return crypto.randomUUID ? crypto.randomUUID() : `manual-${Date.now()}-${Math.random().toString(36).slice(2)}`; }
+    function text(tag, value, className) { const node = document.createElement(tag); node.textContent = value; if (className) node.className = className; return node; }
+    function notice(message) { const node = text("div", message, "toast"); document.body.append(node); setTimeout(() => node.remove(), 3200); }
+
+    function render() {
+      const query = $("#search").value.trim().toLowerCase();
+      const region = $("#region").value;
+      const regions = [...new Set(jobs.map((job) => job.locationCity))].sort((a,b) => a.localeCompare(b,"ko"));
+      const previous = region;
+      $("#region").replaceChildren(new Option("모든 지역","all"), ...regions.map((value) => new Option(value,value)));
+      $("#region").value = regions.includes(previous) ? previous : "all";
+      const filtered = jobs.filter((job) => (!query || `${job.companyName} ${job.title} ${job.locationCity}`.toLowerCase().includes(query)) && ($("#region").value === "all" || job.locationCity === $("#region").value));
+      $("#jobs").replaceChildren(...filtered.map(jobCard));
+      $("#empty").hidden = filtered.length > 0;
+      $("#total").textContent = jobs.length;
+      $("#seoul").textContent = jobs.filter((job) => job.locationCity.includes("서울")).length;
+      $("#edited").textContent = jobs.filter((job) => job.adminEditedAt).length;
+      $("#count").textContent = `${filtered.length}개의 공고`;
+    }
+
+    function jobCard(job) {
+      const card = document.createElement("article"); card.className = "job";
+      const top = document.createElement("div"); top.className = "job-top";
+      const chips = document.createElement("div"); chips.className = "chips";
+      chips.append(text("span", job.sector === "public" ? "공공" : job.sector === "headhunter" ? "헤드헌터" : "민간", "chip"), text("span", job.sourceId ? "공식채용" : "직접등록", "chip"));
+      if (job.adminEditedAt) chips.append(text("span", "관리자 수정", "chip edited"));
+      const tools = document.createElement("div"); tools.className = "job-tools";
+      const edit = text("button", "수정"); edit.type = "button"; edit.addEventListener("click", () => openEditor(job));
+      const remove = text("button", "삭제"); remove.type = "button"; remove.addEventListener("click", () => { if (confirm("이 공고를 삭제할까요?")) { jobs = jobs.filter((item) => item.id !== job.id); persist(); } });
+      tools.append(edit, remove); top.append(chips, tools);
+      const heading = document.createElement("h3"); const link = text("a", job.title); link.href = job.originalUrl; link.target = "_blank"; link.rel = "noreferrer"; heading.append(link);
+      const meta = document.createElement("div"); meta.className = "job-meta"; meta.append(text("strong", job.companyName), text("span", `⌖ ${job.locationCity}`, "location"));
+      const footer = document.createElement("footer"); footer.append(text("span", job.source), text("span", job.expiresAt ? `마감 ${new Date(job.expiresAt).toLocaleDateString("ko-KR")}` : "상시·미정"));
+      const official = text("a", "기업 공고 보기 ↗"); official.href = job.originalUrl; official.target = "_blank"; official.rel = "noreferrer"; footer.append(official);
+      card.append(top, heading, meta); if (job.memo) card.append(text("p", job.memo)); card.append(footer); return card;
+    }
+
+    function openEditor(job) {
+      editingId = job?.id || null;
+      $("#mode").textContent = job ? "ADMIN EDIT" : "ADD A JOB";
+      $("#form-title").textContent = job ? "공고 정보 수정" : "새 공고 추가";
+      $("#save").textContent = job ? "수정 저장" : "보드에 추가";
+      $("#form").reset();
+      const values = job || { source:"기업 공식 채용", sector:"private" };
+      for (const [key,value] of Object.entries(values)) if ($(`#form [name="${key}"]`) && typeof value === "string") $(`#form [name="${key}"]`).value = key === "expiresAt" ? value.slice(0,10) : value;
+      $("#form-error").textContent = ""; $("#editor").showModal();
+    }
+
+    $("#form").addEventListener("submit", (event) => {
+      event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget));
+      if (!validLocation(data.locationCity)) return $("#form-error").textContent = "공식 공고에서 확인한 근무 지역을 입력해 주세요.";
+      if (!directUrl(data.originalUrl)) return $("#form-error").textContent = "채용 중개 사이트가 아닌 기업 공식 채용공고 URL을 입력해 주세요.";
+      const existing = jobs.find((job) => job.id === editingId);
+      const now = new Date().toISOString();
+      const next = { ...existing, ...data, id: existing?.id || uid(), companyType: existing?.companyType || "corporate", createdAt: existing?.createdAt || now, updatedAt: now, adminEditedAt: existing ? now : undefined };
+      jobs = existing ? jobs.map((job) => job.id === existing.id ? next : job) : [next, ...jobs];
+      persist(); $("#editor").close(); notice(existing ? "관리자 수정 내용을 저장했습니다." : "공고를 추가했습니다.");
+    });
+
+    async function sync() {
+      $("#sync").disabled = true; $("#sync").textContent = "확인 중…";
+      try {
+        const response = await fetch("/api/collect", { cache:"no-store" }); if (!response.ok) throw new Error();
+        const payload = await response.json(); const incoming = (payload.jobs || []).filter(validJob);
+        const merged = new Map(incoming.map((job) => [job.id, job]));
+        for (const job of jobs) if (job.adminEditedAt || !job.sourceId) merged.set(job.id, job);
+        jobs = [...merged.values()]; persist();
+        $("#sources").replaceChildren(text("strong", "기업 공식 채용"), ...(payload.sources || []).map((source) => { const chip = text("span", `${source.label} ${source.count}`, `source-chip ${source.status}`); chip.title = source.message; return chip; }));
+        notice(`기업 공식 공고 ${incoming.length}개를 확인했습니다.`);
+      } catch { notice("단독 파일에서는 수동 관리가 가능합니다. 자동 수집은 배포된 주소에서 이용해 주세요."); }
+      finally { $("#sync").disabled = false; $("#sync").textContent = "공식 공고 새로고침"; }
+    }
+
+    $("#add").addEventListener("click", () => openEditor()); $("#sync").addEventListener("click", sync);
+    $("#search").addEventListener("input", render); $("#region").addEventListener("change", render);
+    $("#close").addEventListener("click", () => $("#editor").close()); $("#cancel").addEventListener("click", () => $("#editor").close());
+    persist(); sync();
+  </script>
+</body>
+</html>
