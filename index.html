@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173f35">
-  <title>LexScout HTML | 기업 공식 법률 채용공고</title>
+  <title>LexScout | 공공·기업 공식 법률 채용공고</title>
   <style>
     :root { color-scheme: light; --ink:#18342d; --green:#173f35; --mint:#dcece4; --paper:#f6f3eb; --line:#d8d6cb; --white:#fff; --red:#a63d40; }
     * { box-sizing:border-box; }
@@ -80,19 +80,19 @@
 </head>
 <body>
   <header>
-    <div class="brand"><span class="brand-mark">LS</span><span><b>LexScout</b><small>OFFICIAL CAREER LINKS</small></span></div>
+    <div class="brand"><span class="brand-mark">LS</span><span><b>LexScout</b><small>PUBLIC &amp; CORPORATE CAREERS</small></span></div>
     <div class="actions"><button class="sync" id="sync">공식 공고 새로고침</button><button class="primary" id="add">＋ 공고 추가</button></div>
   </header>
   <main>
     <section class="hero">
-      <div><p class="eyebrow">MY CAREER DESK · HTML EDITION</p><h1>기업이 올린 <em>법률 채용공고</em>로 바로.</h1><p>채용 중개 사이트를 거치지 않고 기업 공식 채용공고로 연결합니다. 근무지가 확인된 공고만 저장되며 관리자가 언제든 정보를 수정할 수 있습니다.</p></div>
+      <div><p class="eyebrow">MY CAREER DESK · SINGLE HTML</p><h1>공공기관과 기업의 <em>법률 채용공고</em>로 바로.</h1><p>채용 중개 사이트를 거치지 않고 나라일터·잡알리오 및 기업 공식 채용공고로 연결합니다. 근무지가 확인된 공고만 저장되며 관리자가 언제든 정보를 수정할 수 있습니다.</p></div>
       <div class="seal" aria-hidden="true">LS</div>
     </section>
-    <section class="policy"><span aria-hidden="true">✓</span><div><strong>공식 링크·확정 지역 원칙</strong><p>기업별 채용 페이지의 직접 링크만 허용하고 ‘지역 미정’은 저장하지 않습니다.</p></div><span class="tag">관리자 수정 가능</span></section>
-    <div class="source-row" id="sources"><strong>기업 공식 채용</strong><span class="source-chip">확인 전</span></div>
+    <section class="policy"><span aria-hidden="true">✓</span><div><strong>공식 링크·확정 지역 원칙</strong><p>정부·공공기관 및 기업 채용 페이지의 원문 링크만 허용하고 ‘지역 미정’은 저장하지 않습니다.</p></div><span class="tag">관리자 수정 가능</span></section>
+    <div class="source-row" id="sources"><strong>공식 채용 소스</strong><span class="source-chip">확인 전</span></div>
     <section class="stats"><article class="stat"><span>전체 공고</span><b id="total">0</b></article><article class="stat"><span>서울</span><b id="seoul">0</b></article><article class="stat"><span>관리자 수정</span><b id="edited">0</b></article></section>
     <section class="board">
-      <div class="board-head"><div><p class="eyebrow">DIRECT OPENINGS</p><h2>기업 공식 채용공고</h2></div><span id="count">0개의 공고</span></div>
+      <div class="board-head"><div><p class="eyebrow">DIRECT OPENINGS</p><h2>공공·기업 공식 채용공고</h2></div><span id="count">0개의 공고</span></div>
       <div class="toolbar"><input id="search" type="search" placeholder="회사명, 공고 제목, 지역 검색" aria-label="공고 검색"><select id="region" aria-label="지역 필터"><option value="all">모든 지역</option></select></div>
       <div class="job-list" id="jobs"></div>
       <div class="empty" id="empty">등록된 공식 공고가 없습니다.</div>
@@ -108,17 +108,18 @@
         <label>근무 지역 (필수)<input name="locationCity" required placeholder="예: 서울, 성남, 원격"></label>
         <label class="wide">출처<input name="source" required value="기업 공식 채용"></label>
         <label>공고 마감일<input name="expiresAt" type="date"></label>
-        <label class="wide">기업 공식 채용공고 URL<input name="originalUrl" required type="url" placeholder="https://기업-채용페이지/공고…"></label>
+        <label class="wide">공식 채용공고 URL<input name="originalUrl" required type="url" placeholder="https://공식-채용페이지/공고…"></label>
         <label class="wide">메모<textarea name="memo" rows="3"></textarea></label>
       </div>
-      <p class="form-note">사람인·리멤버 등 중개 사이트 링크와 ‘지역 미정’ 값은 저장되지 않습니다.</p>
+      <p class="form-note">채용 중개 사이트 링크와 ‘지역 미정’ 값은 저장되지 않습니다.</p>
       <p class="error" id="form-error" role="alert"></p>
       <div class="dialog-actions"><button type="button" id="cancel">취소</button><button class="primary" type="submit" id="save">보드에 추가</button></div>
     </form>
   </dialog>
   <script>
     const STORAGE_KEY = "lawjob.jobs.v1";
-    const blockedHosts = ["saramin.co.kr","jobkorea.co.kr","rememberapp.co.kr","incruit.com","jobda.im","wanted.co.kr","jumpit.co.kr","linkedin.com","legalcrew.co.kr","klaw.or.kr","job.alio.go.kr","gojobs.go.kr"];
+    const API_URL = "https://lawjob-career-board.yejioh90.chatgpt.site/api/collect";
+    const blockedHosts = ["saramin.co.kr","jobkorea.co.kr","rememberapp.co.kr","incruit.com","jobda.im","wanted.co.kr","jumpit.co.kr","linkedin.com","legalcrew.co.kr","klaw.or.kr"];
     const unknownLocation = /^(지역\s*미정|근무지\s*미정|미정|미표기|확인\s*필요|unknown|unspecified|tbd|n\/?a|-)$/i;
     const $ = (selector) => document.querySelector(selector);
     let jobs = loadJobs();
@@ -186,7 +187,7 @@
     $("#form").addEventListener("submit", (event) => {
       event.preventDefault(); const data = Object.fromEntries(new FormData(event.currentTarget));
       if (!validLocation(data.locationCity)) return $("#form-error").textContent = "공식 공고에서 확인한 근무 지역을 입력해 주세요.";
-      if (!directUrl(data.originalUrl)) return $("#form-error").textContent = "채용 중개 사이트가 아닌 기업 공식 채용공고 URL을 입력해 주세요.";
+      if (!directUrl(data.originalUrl)) return $("#form-error").textContent = "채용 중개 사이트가 아닌 공공기관·기업 공식 채용공고 URL을 입력해 주세요.";
       const existing = jobs.find((job) => job.id === editingId);
       const now = new Date().toISOString();
       const next = { ...existing, ...data, id: existing?.id || uid(), companyType: existing?.companyType || "corporate", createdAt: existing?.createdAt || now, updatedAt: now, adminEditedAt: existing ? now : undefined };
@@ -197,14 +198,14 @@
     async function sync() {
       $("#sync").disabled = true; $("#sync").textContent = "확인 중…";
       try {
-        const response = await fetch("/api/collect", { cache:"no-store" }); if (!response.ok) throw new Error();
+        const response = await fetch(API_URL, { cache:"no-store" }); if (!response.ok) throw new Error();
         const payload = await response.json(); const incoming = (payload.jobs || []).filter(validJob);
         const merged = new Map(incoming.map((job) => [job.id, job]));
         for (const job of jobs) if (job.adminEditedAt || !job.sourceId) merged.set(job.id, job);
         jobs = [...merged.values()]; persist();
-        $("#sources").replaceChildren(text("strong", "기업 공식 채용"), ...(payload.sources || []).map((source) => { const chip = text("span", `${source.label} ${source.count}`, `source-chip ${source.status}`); chip.title = source.message; return chip; }));
-        notice(`기업 공식 공고 ${incoming.length}개를 확인했습니다.`);
-      } catch { notice("단독 파일에서는 수동 관리가 가능합니다. 자동 수집은 배포된 주소에서 이용해 주세요."); }
+        $("#sources").replaceChildren(text("strong", "공식 채용 소스"), ...(payload.sources || []).map((source) => { const chip = text("span", `${source.label} ${source.count}`, `source-chip ${source.status}`); chip.title = source.message; return chip; }));
+        notice(`공식 공고 ${incoming.length}개를 확인했습니다.`);
+      } catch { notice("자동 수집에 연결하지 못했습니다. 직접 등록 기능은 계속 사용할 수 있습니다."); }
       finally { $("#sync").disabled = false; $("#sync").textContent = "공식 공고 새로고침"; }
     }
 
