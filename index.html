@@ -192,7 +192,7 @@
     async function sync() {
       $("#sync").disabled = true; $("#sync").textContent = "확인 중…";
       try {
-        const response = await fetch(API_URL, { cache:"no-store" }); if (!response.ok) throw new Error();
+        const response = await fetch(API_https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L01.do, { cache:"no-store" }); if (!response.ok) throw new Error();
         const payload = await response.json(); const incoming = (payload.jobs || []).filter(validJob);
         const merged = new Map(incoming.map((job) => [job.id, job]));
         for (const job of jobs) if (job.adminEditedAt || !job.sourceId) merged.set(job.id, job);
