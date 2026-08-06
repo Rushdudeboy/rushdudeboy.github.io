@@ -6,7 +6,7 @@ import time
 class Employment24JobScraper:
     def __init__(self):
         # 고용24(워크넷) OpenAPI 인증키 입력
-        self.api_key = "여기에_고용24_인증키를_입력하세요"
+        self.api_key = "47ef79f0-d732-47f7-884d-c9487fb95d70"
         self.base_url = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo.do" # 고용24 오픈API 표준 호출 엔드포인트
         
         # 타겟 기업 리스트
